@@ -4,8 +4,9 @@ const {
   createAttendant,
   getAllAttendants,
 } = require("../controllers/attendantController");
+const { validateAttendant } = require("../middleware/validate");
 
-router.post("/", createAttendant);
+router.post("/", validateAttendant, createAttendant);
 router.get("/", getAllAttendants);
 
 module.exports = router;

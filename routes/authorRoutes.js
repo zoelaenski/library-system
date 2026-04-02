@@ -7,11 +7,12 @@ const {
   updateAuthor,
   deleteAuthor,
 } = require("../controllers/authorController");
+const { validateAuthor } = require("../middleware/validate");
 
-router.post("/", createAuthor);
+router.post("/", validateAuthor, createAuthor);
 router.get("/", getAllAuthors);
 router.get("/:id", getAuthorById);
-router.put("/:id", updateAuthor);
+router.put("/:id", validateAuthor, updateAuthor);
 router.delete("/:id", deleteAuthor);
 
 module.exports = router;

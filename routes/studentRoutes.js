@@ -5,8 +5,9 @@ const {
   getAllStudents,
   getStudentById,
 } = require("../controllers/studentController");
+const { validateStudent } = require("../middleware/validate");
 
-router.post("/", createStudent);
+router.post("/", validateStudent, createStudent);
 router.get("/", getAllStudents);
 router.get("/:id", getStudentById);
 

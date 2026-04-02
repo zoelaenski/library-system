@@ -9,11 +9,12 @@ const {
   borrowBook,
   returnBook,
 } = require("../controllers/bookController");
+const { validateBook } = require("../middleware/validate");
 
-router.post("/", createBook);
+router.post("/", validateBook, createBook);
 router.get("/", getAllBooks);
 router.get("/:id", getBookById);
-router.put("/:id", updateBook);
+router.put("/:id", validateBook, updateBook);
 router.delete("/:id", deleteBook);
 router.post("/:id/borrow", borrowBook);
 router.post("/:id/return", returnBook);

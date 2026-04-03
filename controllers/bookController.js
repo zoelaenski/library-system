@@ -11,27 +11,43 @@ const createBook = async (req, res) => {
 
 const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find();
-    res.status(200).json(books);
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const skip = (page - 1) * limit;
+    const search = req.query.search || "";
+
+    const query = search
+      ? { title: { $regex: search, $options: "i" } }
+      : {};
+
+    const books = await Book.find(query).skip(skip).limit(limit);
+    const total = await Book.countDocuments(query);
+
+    res.status(200).json({
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+      books,
+    });
   } catch (error) {
-    res.status(500).json({message: error.message});
+    res.status(500).json({ message: error.message });
   }
 };
 
 const getBookById = async (req, res) => {
-    try {
-        const book = await Book.findById(req.params.id)
-  .populate("authors")
-  .populate("borrowedBy")
-  .populate("issuedBy");
+  try {
+    const book = await Book.findById(req.params.id)
+      .populate("authors")
+      .populate("borrowedBy")
+      .populate("issuedBy");
 
-  if (!book) {
-    res.status(404).json({message: "Book not found"});
-  };
-  return res.status(200).json(book);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
+    if (!book) {
+      res.status(404).json({ message: "Book not found" });
+    };
+    return res.status(200).json(book);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const updateBook = async (req, res) => {

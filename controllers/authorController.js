@@ -32,27 +32,27 @@ const getAuthorById = async (req, res) => {
 };
 
 const updateAuthor = async (req, res) => {
-    try {
-        const author = await Author.findByIdAndUpdate(req.params.id, req.body, {new: true});
+  try {
+    const author = await Author.findByIdAndUpdate(req.params.id, req.body, { new: true });
     if (!author) {
-        return res.status(404).json({message: "Author not found"});
+      return res.status(404).json({ message: "Author not found" });
     }
     res.status(200).json(author);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 const deleteAuthor = async (req, res) => {
-    try {
-        const author = await Author.findByIdAndDelete(req.params.id);
+  try {
+    const author = await Author.findByIdAndDelete(req.params.id);
     if (!author) {
-        return res.status(404).json({message: "Author not found"});
+      return res.status(404).json({ message: "Author not found" });
     }
     res.status(200).json(author);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
 module.exports = {

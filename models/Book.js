@@ -1,20 +1,20 @@
 const mongoose = require("mongoose");
 const bookSchema = new mongoose.Schema({
-    title:{
+    title: {
         type: String,
         required: true
     },
-    isbn:{
+    isbn: {
         type: String,
         unique: true
     },
 
 
-authors: [
-    {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Author"
-    }],
+    authors: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Author"
+        }],
 
     status: {
         type: String,
